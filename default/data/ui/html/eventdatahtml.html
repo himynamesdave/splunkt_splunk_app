@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Event Data | Splunk</title>
+    <link rel="shortcut icon" href="{{SPLUNKWEB_URL_PREFIX}}/static/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="/en-US/static/@245427/css/build/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/en-US/static/@245427/css/build/pages/dashboard-simple-bootstrap.min.css" />
+    <!--[if IE 7]><link rel="stylesheet" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/sprites-ie7.css" /><![endif]-->
+</head>
+<body class="simplexml preload locale-en">
+<!-- 
+BEGIN LAYOUT
+This section contains the layout for the dashboard. Splunk uses proprietary
+styles in <div> tags, similar to Bootstrap's grid system. 
+-->
+<a class="navSkip" href="#navSkip" tabindex="1">Screen reader users, click here to skip the navigation bar</a>
+<div class="header splunk-header">
+        <div id="placeholder-splunk-bar">
+            <a href="{{SPLUNKWEB_URL_PREFIX}}/app/launcher/home" class="brand" title="splunk &gt; listen to your data">splunk<strong>&gt;</strong></a>
+        </div>
+            <div id="placeholder-app-bar"></div>
+</div>
+<a id="navSkip"></a>
+<div class="dashboard-body container-fluid main-section-body" data-role="main">
+    <h2>Add / Delete Event</h2>
+
+    <form id="formEventData">
+    <div class="fieldset">
+        <div class="input input-text" id="input1">
+            <label>addEventName</label>
+        </div>
+        <div class="input input-text" id="input2">
+            <label>addEventId</label>
+        </div>
+        <div class="input input-dropdown" id="input3">
+            <label>addEventCountry</label>
+        </div>
+        <div class="input input-dropdown" id="input4">
+            <label>addEventClass</label>
+        </div>
+        <div class="input input-text" id="input5">
+            <label>addEventOrganiserEmail</label>
+        </div>
+        <div class="input input-dropdown" id="input6">
+            <label>addEventStartDay</label>
+        </div>
+        <div class="input input-dropdown" id="input7">
+            <label>addEventStartMonth</label>
+        </div>
+        <div class="input input-dropdown" id="input8">
+            <label>addEventStartYear</label>
+        </div>
+        <div class="input input-dropdown" id="input9">
+            <label>addEventEndDay</label>
+        </div>
+        <div class="input input-dropdown" id="input10">
+            <label>addEventEndMonth</label>
+        </div>
+        <div class="input input-dropdown" id="input11">
+            <label>addEventEndYear</label>
+        </div>
+        <div class="form-submit" id="search_btn">
+            <button class="btn btn-primary submit">Submit</button>
+        </div>
+    
+    <div>
+        <div class="input input-text" id="input12">
+            <label>Enter a Key ID from the table below to delete a row.</label>
+        </div>
+        <div><button id="deleteRecord">Delete event</button></div>
+    </div>
+    <br>
+    </form>
+
+
+    <div id="row1" class="dashboard-row dashboard-row1">
+        <div id="panel1" class="dashboard-cell" style="width: 100%;">                
+            <div class="panel-element-row">
+                <div id="element1" class="dashboard-element table" style="width: 100%">
+                    <div class="panel-head">
+                        <h3>Current events</h3>
+                    </div>
+                    <div class="panel-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="footer"></div>
+
+<!-- 
+END LAYOUT
+-->
+
+<script src="{{SPLUNKWEB_URL_PREFIX}}/config?autoload=1"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/js/i18n.js"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/i18ncatalog?autoload=1"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/js/build/simplexml.min/config.js"></script>
+<script type="text/javascript">
+require.config({
+    baseUrl: "{{SPLUNKWEB_URL_PREFIX}}/static/js",
+    waitSeconds: 0 // Disable require.js load timeout
+});
+
+//
+// LIBRARY REQUIREMENTS
+//
+// In the require function, we include the necessary libraries and modules for
+// the HTML dashboard. Then, we pass variable names for these libraries and
+// modules as function parameters, in order.
+// 
+// When you add libraries or modules, remember to retain this mapping order
+// between the library or module and its function parameter. You can do this by
+// adding to the end of these lists, as shown in the commented examples below.
+
+require([
+    "splunkjs/mvc",
+    "splunkjs/mvc/utils",
+    "splunkjs/mvc/tokenutils",
+    "underscore",
+    "jquery",
+    "splunkjs/mvc/simplexml",
+    "splunkjs/mvc/headerview",
+    "splunkjs/mvc/footerview",
+    "splunkjs/mvc/simplexml/dashboardview",
+    "splunkjs/mvc/simplexml/dashboard/panelref",
+    "splunkjs/mvc/simplexml/element/chart",
+    "splunkjs/mvc/simplexml/element/event",
+    "splunkjs/mvc/simplexml/element/html",
+    "splunkjs/mvc/simplexml/element/list",
+    "splunkjs/mvc/simplexml/element/map",
+    "splunkjs/mvc/simplexml/element/single",
+    "splunkjs/mvc/simplexml/element/table",
+    "splunkjs/mvc/simpleform/formutils",
+    "splunkjs/mvc/simplexml/eventhandler",
+    "splunkjs/mvc/simpleform/input/dropdown",
+    "splunkjs/mvc/simpleform/input/radiogroup",
+    "splunkjs/mvc/simpleform/input/multiselect",
+    "splunkjs/mvc/simpleform/input/checkboxgroup",
+    "splunkjs/mvc/simpleform/input/text",
+    "splunkjs/mvc/simpleform/input/timerange",
+    "splunkjs/mvc/simpleform/input/submit",
+    "splunkjs/mvc/searchmanager",
+    "splunkjs/mvc/savedsearchmanager",
+    "splunkjs/mvc/postprocessmanager",
+    "splunkjs/mvc/simplexml/urltokenmodel"
+    // Add comma-separated libraries and modules manually here, for example:
+    // ..."splunkjs/mvc/simplexml/urltokenmodel",
+    // "splunkjs/mvc/checkboxview"
+    ],
+    function(
+        mvc,
+        utils,
+        TokenUtils,
+        _,
+        $,
+        DashboardController,
+        HeaderView,
+        FooterView,
+        Dashboard,
+        PanelRef,
+        ChartElement,
+        EventElement,
+        HtmlElement,
+        ListElement,
+        MapElement,
+        SingleElement,
+        TableElement,
+        FormUtils,
+        EventHandler,
+        DropdownInput,
+        RadioGroupInput,
+        MultiSelectInput,
+        CheckboxGroupInput,
+        TextInput,
+        TimeRangeInput,
+        SubmitButton,
+        SearchManager,
+        SavedSearchManager,
+        PostProcessManager,
+        UrlTokenModel
+
+        // Add comma-separated parameter names here, for example: 
+        // ...UrlTokenModel, 
+        // CheckboxView
+        ) {
+
+
+
+        var pageLoading = true;
+
+
+        // 
+        // TOKENS
+        //
+        
+        // Create token namespaces
+        var urlTokenModel = new UrlTokenModel();
+        mvc.Components.registerInstance('url', urlTokenModel);
+        var defaultTokenModel = mvc.Components.getInstance('default', {create: true});
+        var submittedTokenModel = mvc.Components.getInstance('submitted', {create: true});
+
+        urlTokenModel.on('url:navigate', function() {
+            defaultTokenModel.set(urlTokenModel.toJSON());
+            if (!_.isEmpty(urlTokenModel.toJSON()) && !_.all(urlTokenModel.toJSON(), _.isUndefined)) {
+                submitTokens();
+            } else {
+                submittedTokenModel.clear();
+            }
+        });
+
+        // Initialize tokens
+        defaultTokenModel.set(urlTokenModel.toJSON());
+
+        function submitTokens() {
+            // Copy the contents of the defaultTokenModel to the submittedTokenModel and urlTokenModel
+            FormUtils.submitForm({ replaceState: pageLoading });
+        }
+
+        function setToken(name, value) {
+            defaultTokenModel.set(name, value);
+            submittedTokenModel.set(name, value);
+        }
+
+        function unsetToken(name) {
+            defaultTokenModel.unset(name);
+            submittedTokenModel.unset(name);
+        }
+
+        
+        
+        //
+        // SEARCH MANAGERS
+        //
+
+        var search1 = new SearchManager({
+            "id": "search1",
+            "earliest_time": "0",
+            "search": "| inputlookup kvstore_event_lookup | eval KeyID = _key | table KeyID, addEventName, addEventId, addEventCountry, addEventClass, addEventOrganiserEmail, addEventStartDay, addEventStartMonth, addEventStartYear, addEventEndDay, addEventEndMonth, addEventEndYear",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "latest_time": "$latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+
+
+        //
+        // SPLUNK HEADER AND FOOTER
+        //
+
+        new HeaderView({
+            id: 'header',
+            section: 'dashboards',
+            el: $('.header'),
+            acceleratedAppNav: true,
+            useSessionStorageCache: true,
+            splunkbar: true,
+            appbar: true,
+            litebar: false,
+        }, {tokens: true}).render();
+
+        new FooterView({
+            id: 'footer',
+            el: $('.footer')
+        }, {tokens: true}).render();
+
+
+        //
+        // DASHBOARD EDITOR
+        //
+
+        new Dashboard({
+            id: 'dashboard',
+            el: $('.dashboard-body'),
+            showTitle: true,
+            editable: true
+        }, {tokens: true}).render();
+
+
+        //
+        // VIEWS: VISUALIZATION ELEMENTS
+        //
+
+        var element1 = new TableElement({
+            "id": "element1",
+            "count": 10,
+            "dataOverlayMode": "none",
+            "drilldown": "row",
+            "rowNumbers": "undefined",
+            "wrap": "undefined",
+            "managerid": "search1",
+            "el": $('#element1')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+        
+
+
+        //
+        // VIEWS: FORM INPUTS
+        //
+        var input1 = new TextInput({
+            "id": "input1",
+            "value": "$form.addEventName$",
+            "el": $('#input1')
+        }, {tokens: true}).render();
+
+        input1.on("change", function(newValue) {
+            FormUtils.handleValueChange(input1);
+        });
+
+    
+        var input2 = new TextInput({
+            "id": "input2",
+            "value": "$form.addEventId$",
+            "el": $('#input2')
+        }, {tokens: true}).render();
+
+        input2.on("change", function(newValue) {
+            FormUtils.handleValueChange(input2);
+        });
+
+    
+        var input3 = new DropdownInput({
+            "id": "input3",
+            "choices": [
+                {"label": "Afghanistan", "value": "AF"},
+                {"label": "\u00c5land Islands", "value": "AX"},
+                {"label": "Albania", "value": "AL"},
+                {"label": "Algeria", "value": "DZ"},
+                {"label": "American Samoa", "value": "AS"},
+                {"label": "Andorra", "value": "AD"},
+                {"label": "Angola", "value": "AO"},
+                {"label": "Anguilla", "value": "AI"},
+                {"label": "Antarctica", "value": "AQ"},
+                {"label": "Antigua and Barbuda", "value": "AG"},
+                {"label": "Argentina", "value": "AR"},
+                {"label": "Armenia", "value": "AM"},
+                {"label": "Aruba", "value": "AW"},
+                {"label": "Australia", "value": "AU"},
+                {"label": "Austria", "value": "AT"},
+                {"label": "Azerbaijan", "value": "AZ"},
+                {"label": "Bahamas", "value": "BS"},
+                {"label": "Bahrain", "value": "BH"},
+                {"label": "Bangladesh", "value": "BD"},
+                {"label": "Barbados", "value": "BB"},
+                {"label": "Belarus", "value": "BY"},
+                {"label": "Belgium", "value": "BE"},
+                {"label": "Belize", "value": "BZ"},
+                {"label": "Benin", "value": "BJ"},
+                {"label": "Bermuda", "value": "BM"},
+                {"label": "Bhutan", "value": "BT"},
+                {"label": "Bolivia, Plurinational State of", "value": "BO"},
+                {"label": "Bonaire, Sint Eustatius and Saba", "value": "BQ"},
+                {"label": "Bosnia and Herzegovina", "value": "BA"},
+                {"label": "Botswana", "value": "BW"},
+                {"label": "Bouvet Island", "value": "BV"},
+                {"label": "Brazil", "value": "BR"},
+                {"label": "British Indian Ocean Territory", "value": "IO"},
+                {"label": "Brunei Darussalam", "value": "BN"},
+                {"label": "Bulgaria", "value": "BG"},
+                {"label": "Burkina Faso", "value": "BF"},
+                {"label": "Burundi", "value": "BI"},
+                {"label": "Cambodia", "value": "KH"},
+                {"label": "Cameroon", "value": "CM"},
+                {"label": "Canada", "value": "CA"},
+                {"label": "Cape Verde", "value": "CV"},
+                {"label": "Cayman Islands", "value": "KY"},
+                {"label": "Central African Republic", "value": "CF"},
+                {"label": "Chad", "value": "TD"},
+                {"label": "Chile", "value": "CL"},
+                {"label": "China", "value": "CN"},
+                {"label": "Christmas Island", "value": "CX"},
+                {"label": "Cocos (Keeling) Islands", "value": "CC"},
+                {"label": "Colombia", "value": "CO"},
+                {"label": "Comoros", "value": "KM"},
+                {"label": "Congo", "value": "CG"},
+                {"label": "Congo, the Democratic Republic of the", "value": "CD"},
+                {"label": "Cook Islands", "value": "CK"},
+                {"label": "Costa Rica", "value": "CR"},
+                {"label": "C\u00f4te d'Ivoire", "value": "CI"},
+                {"label": "Croatia", "value": "HR"},
+                {"label": "Cuba", "value": "CU"},
+                {"label": "Cura\u00e7ao", "value": "CW"},
+                {"label": "Cyprus", "value": "CY"},
+                {"label": "Czech Republic", "value": "CZ"},
+                {"label": "Denmark", "value": "DK"},
+                {"label": "Djibouti", "value": "DJ"},
+                {"label": "Dominica", "value": "DM"},
+                {"label": "Dominican Republic", "value": "DO"},
+                {"label": "Ecuador", "value": "EC"},
+                {"label": "Egypt", "value": "EG"},
+                {"label": "El Salvador", "value": "SV"},
+                {"label": "Equatorial Guinea", "value": "GQ"},
+                {"label": "Eritrea", "value": "ER"},
+                {"label": "Estonia", "value": "EE"},
+                {"label": "Ethiopia", "value": "ET"},
+                {"label": "Falkland Islands (Malvinas)", "value": "FK"},
+                {"label": "Faroe Islands", "value": "FO"},
+                {"label": "Fiji", "value": "FJ"},
+                {"label": "Finland", "value": "FI"},
+                {"label": "France", "value": "FR"},
+                {"label": "French Guiana", "value": "GF"},
+                {"label": "French Polynesia", "value": "PF"},
+                {"label": "French Southern Territories", "value": "TF"},
+                {"label": "Gabon", "value": "GA"},
+                {"label": "Gambia", "value": "GM"},
+                {"label": "Georgia", "value": "GE"},
+                {"label": "Germany", "value": "DE"},
+                {"label": "Ghana", "value": "GH"},
+                {"label": "Gibraltar", "value": "GI"},
+                {"label": "Greece", "value": "GR"},
+                {"label": "Greenland", "value": "GL"},
+                {"label": "Grenada", "value": "GD"},
+                {"label": "Guadeloupe", "value": "GP"},
+                {"label": "Guam", "value": "GU"},
+                {"label": "Guatemala", "value": "GT"},
+                {"label": "Guernsey", "value": "GG"},
+                {"label": "Guinea", "value": "GN"},
+                {"label": "Guinea-Bissau", "value": "GW"},
+                {"label": "Guyana", "value": "GY"},
+                {"label": "Haiti", "value": "HT"},
+                {"label": "Heard Island and McDonald Islands", "value": "HM"},
+                {"label": "Holy See (Vatican City State)", "value": "VA"},
+                {"label": "Honduras", "value": "HN"},
+                {"label": "Hong Kong", "value": "HK"},
+                {"label": "Hungary", "value": "HU"},
+                {"label": "Iceland", "value": "IS"},
+                {"label": "India", "value": "IN"},
+                {"label": "Indonesia", "value": "ID"},
+                {"label": "Iran, Islamic Republic of", "value": "IR"},
+                {"label": "Iraq", "value": "IQ"},
+                {"label": "Ireland", "value": "IE"},
+                {"label": "Isle of Man", "value": "IM"},
+                {"label": "Israel", "value": "IL"},
+                {"label": "Italy", "value": "IT"},
+                {"label": "Jamaica", "value": "JM"},
+                {"label": "Japan", "value": "JP"},
+                {"label": "Jersey", "value": "JE"},
+                {"label": "Jordan", "value": "JO"},
+                {"label": "Kazakhstan", "value": "KZ"},
+                {"label": "Kenya", "value": "KE"},
+                {"label": "Kiribati", "value": "KI"},
+                {"label": "Korea, Democratic People's Republic of", "value": "KP"},
+                {"label": "Korea, Republic of", "value": "KR"},
+                {"label": "Kuwait", "value": "KW"},
+                {"label": "Kyrgyzstan", "value": "KG"},
+                {"label": "Lao People's Democratic Republic", "value": "LA"},
+                {"label": "Latvia", "value": "LV"},
+                {"label": "Lebanon", "value": "LB"},
+                {"label": "Lesotho", "value": "LS"},
+                {"label": "Liberia", "value": "LR"},
+                {"label": "Libya", "value": "LY"},
+                {"label": "Liechtenstein", "value": "LI"},
+                {"label": "Lithuania", "value": "LT"},
+                {"label": "Luxembourg", "value": "LU"},
+                {"label": "Macao", "value": "MO"},
+                {"label": "Macedonia, the former Yugoslav Republic of", "value": "MK"},
+                {"label": "Madagascar", "value": "MG"},
+                {"label": "Malawi", "value": "MW"},
+                {"label": "Malaysia", "value": "MY"},
+                {"label": "Maldives", "value": "MV"},
+                {"label": "Mali", "value": "ML"},
+                {"label": "Malta", "value": "MT"},
+                {"label": "Marshall Islands", "value": "MH"},
+                {"label": "Martinique", "value": "MQ"},
+                {"label": "Mauritania", "value": "MR"},
+                {"label": "Mauritius", "value": "MU"},
+                {"label": "Mayotte", "value": "YT"},
+                {"label": "Mexico", "value": "MX"},
+                {"label": "Micronesia, Federated States of", "value": "FM"},
+                {"label": "Moldova, Republic of", "value": "MD"},
+                {"label": "Monaco", "value": "MC"},
+                {"label": "Mongolia", "value": "MN"},
+                {"label": "Montenegro", "value": "ME"},
+                {"label": "Montserrat", "value": "MS"},
+                {"label": "Morocco", "value": "MA"},
+                {"label": "Mozambique", "value": "MZ"},
+                {"label": "Myanmar", "value": "MM"},
+                {"label": "Namibia", "value": "NA"},
+                {"label": "Nauru", "value": "NR"},
+                {"label": "Nepal", "value": "NP"},
+                {"label": "Netherlands", "value": "NL"},
+                {"label": "New Caledonia", "value": "NC"},
+                {"label": "New Zealand", "value": "NZ"},
+                {"label": "Nicaragua", "value": "NI"},
+                {"label": "Niger", "value": "NE"},
+                {"label": "Nigeria", "value": "NG"},
+                {"label": "Niue", "value": "NU"},
+                {"label": "Norfolk Island", "value": "NF"},
+                {"label": "Northern Mariana Islands", "value": "MP"},
+                {"label": "Norway", "value": "NO"},
+                {"label": "Oman", "value": "OM"},
+                {"label": "Pakistan", "value": "PK"},
+                {"label": "Palau", "value": "PW"},
+                {"label": "Palestinian Territory, Occupied", "value": "PS"},
+                {"label": "Panama", "value": "PA"},
+                {"label": "Papua New Guinea", "value": "PG"},
+                {"label": "Paraguay", "value": "PY"},
+                {"label": "Peru", "value": "PE"},
+                {"label": "Philippines", "value": "PH"},
+                {"label": "Pitcairn", "value": "PN"},
+                {"label": "Poland", "value": "PL"},
+                {"label": "Portugal", "value": "PT"},
+                {"label": "Puerto Rico", "value": "PR"},
+                {"label": "Qatar", "value": "QA"},
+                {"label": "R\u00e9union", "value": "RE"},
+                {"label": "Romania", "value": "RO"},
+                {"label": "Russian Federation", "value": "RU"},
+                {"label": "Rwanda", "value": "RW"},
+                {"label": "Saint Barth\u00e9lemy", "value": "BL"},
+                {"label": "Saint Helena, Ascension and Tristan da Cunha", "value": "SH"},
+                {"label": "Saint Kitts and Nevis", "value": "KN"},
+                {"label": "Saint Lucia", "value": "LC"},
+                {"label": "Saint Martin (French part)", "value": "MF"},
+                {"label": "Saint Pierre and Miquelon", "value": "PM"},
+                {"label": "Saint Vincent and the Grenadines", "value": "VC"},
+                {"label": "Samoa", "value": "WS"},
+                {"label": "San Marino", "value": "SM"},
+                {"label": "Sao Tome and Principe", "value": "ST"},
+                {"label": "Saudi Arabia", "value": "SA"},
+                {"label": "Senegal", "value": "SN"},
+                {"label": "Serbia", "value": "RS"},
+                {"label": "Seychelles", "value": "SC"},
+                {"label": "Sierra Leone", "value": "SL"},
+                {"label": "Singapore", "value": "SG"},
+                {"label": "Sint Maarten (Dutch part)", "value": "SX"},
+                {"label": "Slovakia", "value": "SK"},
+                {"label": "Slovenia", "value": "SI"},
+                {"label": "Solomon Islands", "value": "SB"},
+                {"label": "Somalia", "value": "SO"},
+                {"label": "South Africa", "value": "ZA"},
+                {"label": "South Georgia and the South Sandwich Islands", "value": "GS"},
+                {"label": "South Sudan", "value": "SS"},
+                {"label": "Spain", "value": "ES"},
+                {"label": "Sri Lanka", "value": "LK"},
+                {"label": "Sudan", "value": "SD"},
+                {"label": "Suriname", "value": "SR"},
+                {"label": "Svalbard and Jan Mayen", "value": "SJ"},
+                {"label": "Swaziland", "value": "SZ"},
+                {"label": "Sweden", "value": "SE"},
+                {"label": "Switzerland", "value": "CH"},
+                {"label": "Syrian Arab Republic", "value": "SY"},
+                {"label": "Taiwan, Province of China", "value": "TW"},
+                {"label": "Tajikistan", "value": "TJ"},
+                {"label": "Tanzania, United Republic of", "value": "TZ"},
+                {"label": "Thailand", "value": "TH"},
+                {"label": "Timor-Leste", "value": "TL"},
+                {"label": "Togo", "value": "TG"},
+                {"label": "Tokelau", "value": "TK"},
+                {"label": "Tonga", "value": "TO"},
+                {"label": "Trinidad and Tobago", "value": "TT"},
+                {"label": "Tunisia", "value": "TN"},
+                {"label": "Turkey", "value": "TR"},
+                {"label": "Turkmenistan", "value": "TM"},
+                {"label": "Turks and Caicos Islands", "value": "TC"},
+                {"label": "Tuvalu", "value": "TV"},
+                {"label": "Uganda", "value": "UG"},
+                {"label": "Ukraine", "value": "UA"},
+                {"label": "United Arab Emirates", "value": "AE"},
+                {"label": "United Kingdom", "value": "GB"},
+                {"label": "United States", "value": "US"},
+                {"label": "United States Minor Outlying Islands", "value": "UM"},
+                {"label": "Uruguay", "value": "UY"},
+                {"label": "Uzbekistan", "value": "UZ"},
+                {"label": "Vanuatu", "value": "VU"},
+                {"label": "Venezuela, Bolivarian Republic of", "value": "VE"},
+                {"label": "Viet Nam", "value": "VN"},
+                {"label": "Virgin Islands, British", "value": "VG"},
+                {"label": "Virgin Islands, U.S.", "value": "VI"},
+                {"label": "Wallis and Futuna", "value": "WF"},
+                {"label": "Western Sahara", "value": "EH"},
+                {"label": "Yemen", "value": "YE"},
+                {"label": "Zambia", "value": "ZM"},
+                {"label": "Zimbabwe", "value": "ZW"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventCountry$",
+            "el": $('#input3')
+        }, {tokens: true}).render();
+
+        input3.on("change", function(newValue) {
+            FormUtils.handleValueChange(input3);
+        });
+
+    
+        var input4 = new DropdownInput({
+            "id": "input4",
+            "choices": [
+                {"label": "Splunk Live", "value": "splunklive"},
+                {"label": "User Group", "value": "usergroup"},
+                {"label": "Conference", "value": "conference"},
+                {"label": ".conf", "value": "splunkconf"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventClass$",
+            "el": $('#input4')
+        }, {tokens: true}).render();
+
+        input4.on("change", function(newValue) {
+            FormUtils.handleValueChange(input4);
+        });
+
+    
+        var input5 = new TextInput({
+            "id": "input5",
+            "value": "$form.addEventOrganiserEmail$",
+            "el": $('#input5')
+        }, {tokens: true}).render();
+
+        input5.on("change", function(newValue) {
+            FormUtils.handleValueChange(input5);
+        });
+
+    
+        var input6 = new DropdownInput({
+            "id": "input6",
+            "choices": [
+                {"label": "1", "value": "1"},
+                {"label": "2", "value": "2"},
+                {"label": "3", "value": "3"},
+                {"label": "4", "value": "4"},
+                {"label": "5", "value": "5"},
+                {"label": "6", "value": "6"},
+                {"label": "7", "value": "7"},
+                {"label": "8", "value": "8"},
+                {"label": "9", "value": "9"},
+                {"label": "10", "value": "10"},
+                {"label": "11", "value": "11"},
+                {"label": "12", "value": "12"},
+                {"label": "13", "value": "13"},
+                {"label": "14", "value": "14"},
+                {"label": "15", "value": "15"},
+                {"label": "16", "value": "16"},
+                {"label": "17", "value": "17"},
+                {"label": "18", "value": "18"},
+                {"label": "19", "value": "19"},
+                {"label": "20", "value": "20"},
+                {"label": "21", "value": "21"},
+                {"label": "22", "value": "22"},
+                {"label": "23", "value": "23"},
+                {"label": "24", "value": "24"},
+                {"label": "25", "value": "25"},
+                {"label": "26", "value": "26"},
+                {"label": "27", "value": "27"},
+                {"label": "28", "value": "28"},
+                {"label": "29", "value": "29"},
+                {"label": "30", "value": "30"},
+                {"label": "31", "value": "31"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventStartDay$",
+            "el": $('#input6')
+        }, {tokens: true}).render();
+
+        input6.on("change", function(newValue) {
+            FormUtils.handleValueChange(input6);
+        });
+
+    
+        var input7 = new DropdownInput({
+            "id": "input7",
+            "choices": [
+                {"label": "Jan", "value": "01"},
+                {"label": "Feb", "value": "02"},
+                {"label": "Mar", "value": "03"},
+                {"label": "Apr", "value": "04"},
+                {"label": "May", "value": "05"},
+                {"label": "Jun", "value": "06"},
+                {"label": "Jul", "value": "07"},
+                {"label": "Aug", "value": "08"},
+                {"label": "Sept", "value": "09"},
+                {"label": "Oct", "value": "10"},
+                {"label": "Nov", "value": "11"},
+                {"label": "Dec", "value": "12"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventStartMonth$",
+            "el": $('#input7')
+        }, {tokens: true}).render();
+
+        input7.on("change", function(newValue) {
+            FormUtils.handleValueChange(input7);
+        });
+
+    
+        var input8 = new DropdownInput({
+            "id": "input8",
+            "choices": [
+                {"label": "2015", "value": "2015"},
+                {"label": "2016", "value": "2016"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventStartYear$",
+            "el": $('#input8')
+        }, {tokens: true}).render();
+
+        input8.on("change", function(newValue) {
+            FormUtils.handleValueChange(input8);
+        });
+
+    
+        var input9 = new DropdownInput({
+            "id": "input9",
+            "choices": [
+                {"label": "1", "value": "1"},
+                {"label": "2", "value": "2"},
+                {"label": "3", "value": "3"},
+                {"label": "4", "value": "4"},
+                {"label": "5", "value": "5"},
+                {"label": "6", "value": "6"},
+                {"label": "7", "value": "7"},
+                {"label": "8", "value": "8"},
+                {"label": "9", "value": "9"},
+                {"label": "10", "value": "10"},
+                {"label": "11", "value": "11"},
+                {"label": "12", "value": "12"},
+                {"label": "13", "value": "13"},
+                {"label": "14", "value": "14"},
+                {"label": "15", "value": "15"},
+                {"label": "16", "value": "16"},
+                {"label": "17", "value": "17"},
+                {"label": "18", "value": "18"},
+                {"label": "19", "value": "19"},
+                {"label": "20", "value": "20"},
+                {"label": "21", "value": "21"},
+                {"label": "22", "value": "22"},
+                {"label": "23", "value": "23"},
+                {"label": "24", "value": "24"},
+                {"label": "25", "value": "25"},
+                {"label": "26", "value": "26"},
+                {"label": "27", "value": "27"},
+                {"label": "28", "value": "28"},
+                {"label": "29", "value": "29"},
+                {"label": "30", "value": "30"},
+                {"label": "31", "value": "31"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventEndDay$",
+            "el": $('#input9')
+        }, {tokens: true}).render();
+
+        input9.on("change", function(newValue) {
+            FormUtils.handleValueChange(input9);
+        });
+
+    
+        var input10 = new DropdownInput({
+            "id": "input10",
+            "choices": [
+                {"label": "Jan", "value": "01"},
+                {"label": "Feb", "value": "02"},
+                {"label": "Mar", "value": "03"},
+                {"label": "Apr", "value": "04"},
+                {"label": "May", "value": "05"},
+                {"label": "Jun", "value": "06"},
+                {"label": "Jul", "value": "07"},
+                {"label": "Aug", "value": "08"},
+                {"label": "Sept", "value": "09"},
+                {"label": "Oct", "value": "10"},
+                {"label": "Nov", "value": "11"},
+                {"label": "Dec", "value": "12"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventEndMonth$",
+            "el": $('#input10')
+        }, {tokens: true}).render();
+
+        input10.on("change", function(newValue) {
+            FormUtils.handleValueChange(input10);
+        });
+
+    
+        var input11 = new DropdownInput({
+            "id": "input11",
+            "choices": [
+                {"label": "2015", "value": "2015"},
+                {"label": "2016", "value": "2016"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventEndYear$",
+            "el": $('#input11')
+        }, {tokens: true}).render();
+
+        input11.on("change", function(newValue) {
+            FormUtils.handleValueChange(input11);
+        });
+
+        var input12 = new TextInput({
+            "id": "input12",
+            "value": "$form.KeyID$",
+            "el": $('#input12')
+        }, {tokens: true}).render();
+
+        input12.on("change", function(newValue) {
+            FormUtils.handleValueChange(input12);
+        });
+
+        // 
+        // SERVICE OBJECT
+        //
+
+        // Create a service object using the Splunk SDK for JavaScript
+        // to send REST requests
+        var service = mvc.createService({ owner: "nobody" });
+
+        // 
+        // DELETE BUTTON
+        //
+
+        // Call this function when the Delete Record button is clicked
+        $("#deleteRecord").click(function() {
+            // Get the value of the key ID field
+            var tokens = mvc.Components.getInstance("default");
+            var form_keyid = tokens.get("KeyID");
+
+            // Delete the record that corresponds to the key ID using
+            // the del method to send a DELETE request
+            // to the storage/collections/data/{collection}/ endpoint
+            service.del("storage/collections/data/eventcollection/" + encodeURIComponent(form_keyid))
+                .done(function() { 
+                    // Run the search again to update the table
+                    search1.startSearch(); 
+                });
+            return false;
+        }); 
+
+        // 
+        // SUBMIT FORM DATA
+        //
+
+        var submit = new SubmitButton({
+            id: 'submit',
+            el: $('#search_btn')
+        }, {tokens: true}).render();
+
+        submit.on("submit", function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.getInstance("default");
+            var form_addEventName = tokens.get("addEventName");
+            var form_addEventId = tokens.get("addEventId");
+            var form_addEventCountry = tokens.get("addEventCountry");
+            var form_addEventClass = tokens.get("addEventClass");
+            var form_addEventOrganiserEmail = tokens.get("addEventOrganiserEmail");
+            var form_addEventStartDay = tokens.get("addEventStartDay");
+            var form_addEventStartMonth = tokens.get("addEventStartMonth");
+            var form_addEventStartYear = tokens.get("addEventStartYear");
+            var form_addEventEndDay = tokens.get("addEventEndDay");
+            var form_addEventEndMonth = tokens.get("addEventEndMonth");
+            var form_addEventEndYear = tokens.get("addEventEndYear");
+            
+            // Create a dictionary to store the field names and values
+            var record = { 
+                "addEventName": form_addEventName, 
+                "addEventId": form_addEventId, 
+                "addEventCountry": form_addEventCountry,
+                "addEventClass": form_addEventClass,
+                "addEventOrganiserEmail": form_addEventOrganiserEmail,
+                "addEventStartDay": form_addEventStartDay,
+                "addEventStartMonth": form_addEventStartMonth,
+                "addEventStartYear": form_addEventStartYear,
+                "addEventEndDay": form_addEventEndDay,
+                "addEventEndMonth": form_addEventEndMonth,
+                "addEventEndYear": form_addEventEndYear 
+            }; 
+
+             // Use the request method to send a REST POST request
+            // to the storage/collections/data/{collection}/ endpoint
+            service.request(
+                "storage/collections/data/eventcollection/",
+                "POST",
+                null,
+                null,
+                JSON.stringify(record),
+                {"Content-Type": "application/json"},
+                null)
+                    .done(function() { 
+                         // Run the search again to update the table
+                        search1.startSearch();
+
+                        // Clear the form fields 
+                        $("#formEventData input[type=text]").val(""); 
+                    });
+        });
+
+        // Initialize time tokens to default
+        if (!defaultTokenModel.has('earliest') && !defaultTokenModel.has('latest')) {
+            defaultTokenModel.set({ earliest: '0', latest: '' });
+        }
+
+        if (!_.isEmpty(urlTokenModel.toJSON())){
+            submitTokens();
+        }
+
+
+        //
+        // DASHBOARD READY
+        //
+
+        DashboardController.ready();
+        pageLoading = false;
+
+    }
+);
+</script>
+</body>
+</html>

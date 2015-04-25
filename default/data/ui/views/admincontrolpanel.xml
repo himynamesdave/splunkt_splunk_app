@@ -1,0 +1,32 @@
+<dashboard>
+  <label>Admin Control Panel</label>
+  <row>
+    <html>
+      <h2>Event Management</h2>
+      <ul>
+        <li>
+          <a href="eventdatahtml">Add / Delete Event</a>
+        </li>
+      </ul>
+    </html>
+  </row>
+  <row>
+    <html>
+      <h2>App Management</h2>
+      <ul>
+        <li>
+          <a href="appdatashirtsloganhtml">Add / Delete Shirt Slogan</a>
+        </li>
+        <li>
+          <a href="appdatashirtsizehtml">Add / Delete Shirt Size</a>
+        </li>
+        <li>
+          <a href="appdatausecasehtml">Add / Delete Use Case</a>
+        </li>
+        <li>
+          <a href="appdatacompetitionhtml">Add / Delete Competition</a>
+        </li>
+      </ul>
+    </html>
+  </row>
+</dashboard>

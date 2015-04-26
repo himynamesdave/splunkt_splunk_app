@@ -4,16 +4,5 @@
   <view name="reports" />
   <view name="alerts" />
   <view name="dashboards" />
-  <collection label="Admin">
-    <view name="admincontrolpanel" />
-  	<collection label="Event Management">
-  		<view name="eventdatahtml" />
-  	</collection>
-  	<collection label="App Management">
-  		<view name="appdatashirtsloganhtml" />
-  		<view name="appdatashirtsizehtml" />
-  		<view name="appdatacompetitionhtml" />
-  		<view name="appdatausecasehtml" />
-  	</collection>
-  </collection>
+  <view name="admincontrolpanel" />  	
 </nav>

@@ -35,30 +35,33 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <label>addEventId</label>
         </div>
         <div class="input input-dropdown" id="input3">
-            <label>addEventCountry</label>
+            <label>addEventCity</label>
         </div>
         <div class="input input-dropdown" id="input4">
+            <label>addEventCountry</label>
+        </div>
+        <div class="input input-dropdown" id="input5">
             <label>addEventClass</label>
         </div>
-        <div class="input input-text" id="input5">
+        <div class="input input-text" id="input6">
             <label>addEventOrganiserEmail</label>
         </div>
-        <div class="input input-dropdown" id="input6">
+        <div class="input input-dropdown" id="input7">
             <label>addEventStartDay</label>
         </div>
-        <div class="input input-dropdown" id="input7">
+        <div class="input input-dropdown" id="input8">
             <label>addEventStartMonth</label>
         </div>
-        <div class="input input-dropdown" id="input8">
+        <div class="input input-dropdown" id="input9">
             <label>addEventStartYear</label>
         </div>
-        <div class="input input-dropdown" id="input9">
+        <div class="input input-dropdown" id="input10">
             <label>addEventEndDay</label>
         </div>
-        <div class="input input-dropdown" id="input10">
+        <div class="input input-dropdown" id="input11">
             <label>addEventEndMonth</label>
         </div>
-        <div class="input input-dropdown" id="input11">
+        <div class="input input-dropdown" id="input12">
             <label>addEventEndYear</label>
         </div>
         <div class="form-submit" id="search_btn">
@@ -66,7 +69,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     
     <div>
-        <div class="input input-text" id="input12">
+        <div class="input input-text" id="input13">
             <label>Enter a Key ID from the table below to delete a row.</label>
         </div>
         <div><button id="deleteRecord">Delete event</button></div>
@@ -239,7 +242,7 @@ require([
         var search1 = new SearchManager({
             "id": "search1",
             "earliest_time": "0",
-            "search": "| inputlookup kvstore_event_lookup | eval KeyID = _key | table KeyID, addEventName, addEventId, addEventCountry, addEventClass, addEventOrganiserEmail, addEventStartDay, addEventStartMonth, addEventStartYear, addEventEndDay, addEventEndMonth, addEventEndYear",
+            "search": "| inputlookup kvstore_event_lookup | eval KeyID = _key | table KeyID, addEventName, addEventId, addEventCity, addEventCountry, addEventClass, addEventOrganiserEmail, addEventStartDay, addEventStartMonth, addEventStartYear, addEventEndDay, addEventEndMonth, addEventEndYear",
             "status_buckets": 0,
             "cancelOnUnload": true,
             "latest_time": "$latest$",
@@ -325,9 +328,19 @@ require([
             FormUtils.handleValueChange(input2);
         });
 
-    
-        var input3 = new DropdownInput({
+        var input3 = new TextInput({
             "id": "input3",
+            "value": "$form.addEventCity$",
+            "el": $('#input3')
+        }, {tokens: true}).render();
+
+        input3.on("change", function(newValue) {
+            FormUtils.handleValueChange(input3);
+        });
+
+    
+        var input4 = new DropdownInput({
+            "id": "input4",
             "choices": [
                 {"label": "Afghanistan", "value": "AF"},
                 {"label": "\u00c5land Islands", "value": "AX"},
@@ -582,16 +595,16 @@ require([
             "showClearButton": true,
             "selectFirstChoice": false,
             "value": "$form.addEventCountry$",
-            "el": $('#input3')
+            "el": $('#input4')
         }, {tokens: true}).render();
 
-        input3.on("change", function(newValue) {
-            FormUtils.handleValueChange(input3);
+        input4.on("change", function(newValue) {
+            FormUtils.handleValueChange(input4);
         });
 
     
-        var input4 = new DropdownInput({
-            "id": "input4",
+        var input5 = new DropdownInput({
+            "id": "input5",
             "choices": [
                 {"label": "Splunk Live", "value": "splunklive"},
                 {"label": "User Group", "value": "usergroup"},
@@ -601,17 +614,6 @@ require([
             "showClearButton": true,
             "selectFirstChoice": false,
             "value": "$form.addEventClass$",
-            "el": $('#input4')
-        }, {tokens: true}).render();
-
-        input4.on("change", function(newValue) {
-            FormUtils.handleValueChange(input4);
-        });
-
-    
-        var input5 = new TextInput({
-            "id": "input5",
-            "value": "$form.addEventOrganiserEmail$",
             "el": $('#input5')
         }, {tokens: true}).render();
 
@@ -620,8 +622,19 @@ require([
         });
 
     
-        var input6 = new DropdownInput({
+        var input6 = new TextInput({
             "id": "input6",
+            "value": "$form.addEventOrganiserEmail$",
+            "el": $('#input6')
+        }, {tokens: true}).render();
+
+        input6.on("change", function(newValue) {
+            FormUtils.handleValueChange(input6);
+        });
+
+    
+        var input7 = new DropdownInput({
+            "id": "input7",
             "choices": [
                 {"label": "1", "value": "1"},
                 {"label": "2", "value": "2"},
@@ -658,16 +671,16 @@ require([
             "showClearButton": true,
             "selectFirstChoice": false,
             "value": "$form.addEventStartDay$",
-            "el": $('#input6')
+            "el": $('#input7')
         }, {tokens: true}).render();
 
-        input6.on("change", function(newValue) {
-            FormUtils.handleValueChange(input6);
+        input7.on("change", function(newValue) {
+            FormUtils.handleValueChange(input7);
         });
 
     
-        var input7 = new DropdownInput({
-            "id": "input7",
+        var input8 = new DropdownInput({
+            "id": "input8",
             "choices": [
                 {"label": "Jan", "value": "01"},
                 {"label": "Feb", "value": "02"},
@@ -685,23 +698,6 @@ require([
             "showClearButton": true,
             "selectFirstChoice": false,
             "value": "$form.addEventStartMonth$",
-            "el": $('#input7')
-        }, {tokens: true}).render();
-
-        input7.on("change", function(newValue) {
-            FormUtils.handleValueChange(input7);
-        });
-
-    
-        var input8 = new DropdownInput({
-            "id": "input8",
-            "choices": [
-                {"label": "2015", "value": "2015"},
-                {"label": "2016", "value": "2016"}
-            ],
-            "showClearButton": true,
-            "selectFirstChoice": false,
-            "value": "$form.addEventStartYear$",
             "el": $('#input8')
         }, {tokens: true}).render();
 
@@ -712,6 +708,23 @@ require([
     
         var input9 = new DropdownInput({
             "id": "input9",
+            "choices": [
+                {"label": "2015", "value": "2015"},
+                {"label": "2016", "value": "2016"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventStartYear$",
+            "el": $('#input9')
+        }, {tokens: true}).render();
+
+        input9.on("change", function(newValue) {
+            FormUtils.handleValueChange(input9);
+        });
+
+    
+        var input10 = new DropdownInput({
+            "id": "input10",
             "choices": [
                 {"label": "1", "value": "1"},
                 {"label": "2", "value": "2"},
@@ -748,16 +761,16 @@ require([
             "showClearButton": true,
             "selectFirstChoice": false,
             "value": "$form.addEventEndDay$",
-            "el": $('#input9')
+            "el": $('#input10')
         }, {tokens: true}).render();
 
-        input9.on("change", function(newValue) {
-            FormUtils.handleValueChange(input9);
+        input10.on("change", function(newValue) {
+            FormUtils.handleValueChange(input10);
         });
 
     
-        var input10 = new DropdownInput({
-            "id": "input10",
+        var input11 = new DropdownInput({
+            "id": "input11",
             "choices": [
                 {"label": "Jan", "value": "01"},
                 {"label": "Feb", "value": "02"},
@@ -775,23 +788,6 @@ require([
             "showClearButton": true,
             "selectFirstChoice": false,
             "value": "$form.addEventEndMonth$",
-            "el": $('#input10')
-        }, {tokens: true}).render();
-
-        input10.on("change", function(newValue) {
-            FormUtils.handleValueChange(input10);
-        });
-
-    
-        var input11 = new DropdownInput({
-            "id": "input11",
-            "choices": [
-                {"label": "2015", "value": "2015"},
-                {"label": "2016", "value": "2016"}
-            ],
-            "showClearButton": true,
-            "selectFirstChoice": false,
-            "value": "$form.addEventEndYear$",
             "el": $('#input11')
         }, {tokens: true}).render();
 
@@ -799,14 +795,31 @@ require([
             FormUtils.handleValueChange(input11);
         });
 
-        var input12 = new TextInput({
+    
+        var input12 = new DropdownInput({
             "id": "input12",
-            "value": "$form.KeyID$",
+            "choices": [
+                {"label": "2015", "value": "2015"},
+                {"label": "2016", "value": "2016"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.addEventEndYear$",
             "el": $('#input12')
         }, {tokens: true}).render();
 
         input12.on("change", function(newValue) {
             FormUtils.handleValueChange(input12);
+        });
+
+        var input13 = new TextInput({
+            "id": "input13",
+            "value": "$form.KeyID$",
+            "el": $('#input13')
+        }, {tokens: true}).render();
+
+        input13.on("change", function(newValue) {
+            FormUtils.handleValueChange(input13);
         });
 
         // 
@@ -854,6 +867,7 @@ require([
             var tokens = mvc.Components.getInstance("default");
             var form_addEventName = tokens.get("addEventName");
             var form_addEventId = tokens.get("addEventId");
+            var form_addEventCity = tokens.get("addEventCity");
             var form_addEventCountry = tokens.get("addEventCountry");
             var form_addEventClass = tokens.get("addEventClass");
             var form_addEventOrganiserEmail = tokens.get("addEventOrganiserEmail");
@@ -868,6 +882,7 @@ require([
             var record = { 
                 "addEventName": form_addEventName, 
                 "addEventId": form_addEventId, 
+                "addEventCity": form_addEventCity,
                 "addEventCountry": form_addEventCountry,
                 "addEventClass": form_addEventClass,
                 "addEventOrganiserEmail": form_addEventOrganiserEmail,

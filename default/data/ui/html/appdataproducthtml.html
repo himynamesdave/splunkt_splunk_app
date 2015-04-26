@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Mission Control | Splunk</title>
+    <title>App Data - Products | Splunk</title>
     <link rel="shortcut icon" href="{{SPLUNKWEB_URL_PREFIX}}/static/img/favicon.ico" />
-        <link rel="stylesheet" type="text/css" href="/en-US/static/@255606/css/build/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="/en-US/static/@255606/css/build/pages/dashboard-simple-bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/en-US/static/@245427/css/build/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/en-US/static/@245427/css/build/pages/dashboard-simple-bootstrap.min.css" />
     <!--[if IE 7]><link rel="stylesheet" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/sprites-ie7.css" /><![endif]-->
 </head>
 <body class="simplexml preload locale-en">
@@ -23,40 +23,43 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div id="placeholder-app-bar"></div>
 </div>
 <a id="navSkip"></a>
+
 <div class="dashboard-body container-fluid main-section-body" data-role="main">
-    <div class="dashboard-header clearfix">
-        <h2>Mission Control</h2>
+    <h2>Add / Delete Product</h2>
+ 
+    <form id="formProduct">
+    <div class="fieldset">
+        <div class="input input-text" id="input1">
+            <label>addProduct</label>
+        </div>
+        <div class="form-submit" id="search_btn">
+            <button class="btn btn-primary submit">Submit</button>
+        </div>
     </div>
+
+    <div>
+        <div class="input input-text" id="input2">
+            <label>Enter a Key ID from the table below to delete a row.</label>
+        </div>
+        <div><button id="deleteRecord">Delete product</button></div>
+    </div>
+    <br>
+    </form>
 
 
     <div id="row1" class="dashboard-row dashboard-row1">
-        <div id="panel1" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                
-                <div class="panel-element-row">
-                    <div id="element1" class="dashboard-element html" style="width: 100%">
-                        <div class="panel-body html">
-                          <h2>Edit App Options</h2><ul><li><a href="appdatashirtsloganhtml">Add / Delete Shirt Slogan</a></li><li><a href="/shirtsizehtml">shirtsize</a></li><li><a href="/usecasehtml">usecase</a></li><li><a href="/competitionhtml">competition</a></li></ul>
-                        </div>
+        <div id="panel1" class="dashboard-cell" style="width: 100%;">                
+            <div class="panel-element-row">
+                <div id="element1" class="dashboard-element table" style="width: 100%">
+                    <div class="panel-head">
+                        <h3>Current use case options for selection in app</h3>
                     </div>
+                    <div class="panel-body"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="row2" class="dashboard-row dashboard-row2">
-        <div id="panel2" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                
-                <div class="panel-element-row">
-                    <div id="element2" class="dashboard-element html" style="width: 100%">
-                        <div class="panel-body html">
-                                <h2>Edit App Options</h2><ul><li><a href="/shirtsloganhtml">shirtslogan</a></li><li><a href="/shirtsizehtml">shirtsize</a></li><li><a href="/usecasehtml">usecase</a></li><li><a href="/competitionhtml">competition</a></li></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 <div class="footer"></div>
 
@@ -205,6 +208,19 @@ require([
         // SEARCH MANAGERS
         //
 
+        var search1 = new SearchManager({
+            "id": "search1",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "search": " | inputlookup kvstore_product_lookup | eval KeyID = _key | table KeyID, addProduct",
+            "latest_time": "$latest$",
+            "earliest_time": "0",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true});
+
 
 
         //
@@ -244,29 +260,122 @@ require([
         // VIEWS: VISUALIZATION ELEMENTS
         //
 
-        var element1 = new HtmlElement({
+        var element1 = new TableElement({
             "id": "element1",
-            "useTokens": true,
+            "count": 10,
+            "dataOverlayMode": "none",
+            "drilldown": "row",
+            "rowNumbers": "undefined",
+            "wrap": "undefined",
+            "managerid": "search1",
             "el": $('#element1')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
+        
 
-        DashboardController.addReadyDep(element1.contentLoaded());
-                
-        var element2 = new HtmlElement({
-            "id": "element2",
-            "useTokens": true,
-            "el": $('#element2')
-        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
-        DashboardController.addReadyDep(element2.contentLoaded());
-                
+        //
+        // VIEWS: FORM INPUTS
+        //
+        var input1 = new TextInput({
+            "id": "input1",
+            "value": "$form.addProduct$",
+            "el": $('#input1')
+        }, {tokens: true}).render();
+
+        input1.on("change", function(newValue) {
+            FormUtils.handleValueChange(input1);
+        });
+
+
+        var input2 = new TextInput({
+            "id": "input2",
+            "value": "$form.KeyID$",
+            "el": $('#input2')
+        }, {tokens: true}).render();
+
+        input2.on("change", function(newValue) {
+            FormUtils.handleValueChange(input2);
+        });
+ 
+        // 
+        // SERVICE OBJECT
+        //
+
+        // Create a service object using the Splunk SDK for JavaScript
+        // to send REST requests
+        var service = mvc.createService({ owner: "nobody" });
+
+        // 
+        // DELETE BUTTON
+        //
+
+        // Call this function when the Delete Record button is clicked
+        $("#deleteRecord").click(function() {
+            // Get the value of the key ID field
+            var tokens = mvc.Components.getInstance("default");
+            var form_keyid = tokens.get("KeyID");
+
+            // Delete the record that corresponds to the key ID using
+            // the del method to send a DELETE request
+            // to the storage/collections/data/{collection}/ endpoint
+            service.del("storage/collections/data/productcollection/" + encodeURIComponent(form_keyid))
+                .done(function() { 
+                    // Run the search again to update the table
+                    search1.startSearch(); 
+                });
+            return false;
+        }); 
+
+
+        // 
+        // SUBMIT FORM DATA
+        //
+
+        var submit = new SubmitButton({
+            id: 'submit',
+            el: $('#search_btn')
+        }, {tokens: true}).render();
+
+        submit.on("submit", function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.getInstance("default");
+            var form_addProduct = tokens.get("addProduct");
+            
+            // Create a dictionary to store the field names and values
+            var record = { 
+                "addProduct": form_addProduct
+            }; 
+
+            // Use the request method to send a REST POST request
+            // to the storage/collections/data/{collection}/ endpoint
+            service.request(
+                "storage/collections/data/productcollection/",
+                "POST",
+                null,
+                null,
+                JSON.stringify(record),
+                {"Content-Type": "application/json"},
+                null)
+                    .done(function() { 
+                         // Run the search again to update the table
+                        search1.startSearch();
+
+                        // Clear the form fields 
+                        $("#formProduct input[type=text]").val(""); 
+                    });
+        });
+
 
         // Initialize time tokens to default
         if (!defaultTokenModel.has('earliest') && !defaultTokenModel.has('latest')) {
             defaultTokenModel.set({ earliest: '0', latest: '' });
         }
 
-        submitTokens();
+        if (!_.isEmpty(urlTokenModel.toJSON())){
+            submitTokens();
+        }
 
 
         //

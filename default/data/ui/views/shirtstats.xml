@@ -5,7 +5,7 @@
       <single>
         <title>Last Shirt Given Away</title>
         <search>
-          <query>index="splunkevents" | stats latest(shirt_slogan)</query>
+          <query>index="splunkevents" | stats latest(shirt_slogan) AS latestShirtSloganGiven</query>
           <earliest>rt-30m</earliest>
           <latest>rt</latest>
         </search>
@@ -31,7 +31,7 @@
       <single>
         <title>Shirts Given Away (All Time)</title>
         <search>
-          <query>index="splunkevents" | stats count AS ShirtsGivenToday</query>
+          <query>index="splunkevents" | stats count AS ShirtsGivenAllTime</query>
           <earliest>rt-d@d</earliest>
           <latest>rt</latest>
         </search>

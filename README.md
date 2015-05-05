@@ -50,8 +50,12 @@ The admin control panel gives the ability for user to add or delete:
 
 **Lead stats**
 
+![Splunkt App Lead Stats Dashboard](https://raw.githubusercontent.com/himynamesdave/splunkt_splunk_app/master/static/leadstats.jpg)
+
 Visualises information about leads we've spoken to.
 
 **Shirt stats**
+
+![Splunkt App Shirt Stats Dashboard](https://raw.githubusercontent.com/himynamesdave/splunkt_splunk_app/master/static/shirtstats.jpg)
 
 Visualises information about shirts we've given away.

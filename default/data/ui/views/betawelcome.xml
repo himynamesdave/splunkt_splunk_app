@@ -89,6 +89,10 @@
 <p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/search?earliest=%40mon&amp;latest=now&amp;q=search%20index%3Dtest_splunkevents">See the lead you’ve just scanned here</a>.</p>
 
 <p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/shirtstats?earliest=0&amp;latest">I have also created a basic (work in progress) dashboard for some analytics</a>.</p>
+
+<p><b>STEP 5 – Help me improve this app </b></p>
+
+<p><a href="https://github.com/himynamesdave/splunkt_splunk_app">Fork this app on Github</a>.</p>
 </html>
 </row>
 </dashboard>

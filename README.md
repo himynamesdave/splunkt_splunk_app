@@ -28,7 +28,7 @@ This app contains five KV Collections all used to set variables for Splunkt iOS 
 
 Data entered into KV Collections on "Admin Control Panel" in GUI by Splunk marketing staff.
 
-Data queried by Splunkt iOS app on port 8191.
+Data queried by Splunkt iOS app on port 8098.
 
 1. **[eventcollection]** - stores event data: _key, addEventName, addEventId, addEventCity, addEventCountry, addEventClass, addEventOrganiserEmail, addEventStartDay, addEventStartMonth, addEventStartYear, addEventEndDay, addEventEndMonth, addEventEndYear
 2. **[shirtslogancollection]** - stores shirt slogan data: _key, addShirtSlogan
@@ -39,6 +39,8 @@ Data queried by Splunkt iOS app on port 8191.
 #### Views
 
 **Admin control panel**
+
+![Splunkt App Event Management Dashboard](https://raw.githubusercontent.com/himynamesdave/splunkt_splunk_app/master/static/eventmgmt.jpg)
 
 The admin control panel gives the ability for user to add or delete:
 

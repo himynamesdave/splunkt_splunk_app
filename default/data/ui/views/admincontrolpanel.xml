@@ -5,7 +5,7 @@
       <h2>Event Management</h2>
       <ul>
         <li>
-          <a href="eventdatahtml">Add / Delete Event</a>
+          <a href="eventdatahtml?earliest=0&amp;latest=">Add / Delete Event</a>
         </li>
       </ul>
     </html>
@@ -15,16 +15,16 @@
       <h2>App Management</h2>
       <ul>
         <li>
-          <a href="appdatashirtsloganhtml">Add / Delete Shirt Slogan</a>
+          <a href="appdatashirtsloganhtml?earliest=0&amp;latest=">Add / Delete Shirt Slogan</a>
         </li>
         <li>
-          <a href="appdatashirtsizehtml">Add / Delete Shirt Size</a>
+          <a href="appdatashirtsizehtml?earliest=0&amp;latest=">Add / Delete Shirt Size</a>
         </li>
         <li>
-          <a href="appdatausecasehtml">Add / Delete Use Case</a>
+          <a href="appdatausecasehtml?earliest=0&amp;latest=">Add / Delete Use Case</a>
         </li>
         <li>
-          <a href="appdatacompetitionhtml">Add / Delete Competition</a>
+          <a href="appdatacompetitionhtml?earliest=0&amp;latest=">Add / Delete Competition</a>
         </li>
       </ul>
     </html>

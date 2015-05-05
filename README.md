@@ -36,19 +36,11 @@ Data queried by Splunkt iOS app on port 8191.
 4. **[usecasecollection]** - stores use case data: _key, addUseCase
 5. **[competitioncollection]** - stores competition data: _key, addCompetition
 
-#### Users
-
-There are who types of Splunk users set in app:
-
-1. **marketingteam** - should be granter "admin" permissions. Able to add / delete from KV store and run all searches.
-2. **api** - should be granted "admin" permissions. Used only for mobile app authentication. Able to read and write index or KV Collections.
-3. **staffteam** - should be granted "user" persmission. Able to view searches.
-
 #### Views
 
 **Admin control panel**
 
-Accessed by "marketingteam" users. The admin control panel gives the ability for user to add or delete:
+The admin control panel gives the ability for user to add or delete:
 
 1. Events
 2. Shirt Slogans
@@ -56,8 +48,10 @@ Accessed by "marketingteam" users. The admin control panel gives the ability for
 4. Use Cases
 5. Competitors
 
-*Data visualisation*
+**Lead stats**
 
-Accessed by "staffteam" users.
+Visualises information about leads we've spoken to.
 
-TODO
+**Shirt stats**
+
+Visualises information about shirts we've given away.

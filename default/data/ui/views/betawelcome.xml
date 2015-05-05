@@ -1,0 +1,94 @@
+<dashboard>
+  <label>Beta Test Guide</label>
+  <row>
+    <html>
+<h2>Splunkt for iOS Beta Test Program</h2>
+
+<h3>Overview</h3>
+
+<p>Hello, beta tester!</p>
+
+<p>You're an awesome person helping to improve lead collection at Splunk events.</p>
+
+<p>The Splunkt iOS app allows Splunk staff to capture QR code data from event attendee badges (or allow them to enter the attendees details manually). It also gives Splunk staff the opportunity to enter information about their conversation with the attendee (i.e products or use-cases discussed).</p>
+
+<p>All data collected from the app about the attendee is stored in a Splunk index.</p>
+
+<p>WHY THIS IS GOOD FOR YOU</p>
+
+<p>We can better track the conversations we’re having with prospects and customers to help us sell more effectively. Using Splunkt you can:</p>
+
+<ul>
+<li>Track competition</li>
+<li>Capture detailed lead information</li>
+<li>Measure t-shirt hand-outs vs. closed opportunities</li>
+<li>&amp; more</li>
+</ul>
+
+<p>WHAT I FROM YOU</p>
+
+<p>The app is still in beta. I need help to:</p>
+
+<ul>
+<li>Email me potential bugs</li>
+<li>Suggest improvements</li>
+<li>Help spread the word about this app!</li>
+</ul>
+
+<p>To get a copy of the beta iOS app, email <a href="mailto:dgreenwood@splunk.com">dgreenwood@splunk.com</a> and provide a UDID for an iOS device you own (<a href="http://whatsmyudid.com/">here’s how to find your UDID</a>).</p>
+
+<p>Thank you!</p>
+
+<br />
+<h3>Get started</h3>
+
+<p><b>STEP 1 - Installation</b></p>
+
+<p>I will send you a file SplunktBeta.ipa. When you have this:</p>
+
+<ul>
+<li>Drag the SplunktBeta.ipa file into iTunes library</li>
+<li>Plug in your iOS device</li>
+<li>Select "YOUR DEVICE" &gt; “Apps”</li>
+<li>Click “Install” for SplunktBeta</li>
+<li>Click “Apply” to sync setting with your iOS device</li>
+</ul>
+
+<p>Note, if you are installing an update of this app, please delete the old version from the device and your iTunes library then follow the steps above.</p>
+
+<p><b>STEP 2 – Get familiar with the admin functions</b></p>
+
+<p>Powering the Splunkt iOS app is a Splunk App used for app management and lead analysis.</p>
+
+<p><a href="http://t.splunkstart.com:8000">You can access the Splunk App here</a>.</p>
+
+<p><b>I will email your username and password separately when sending the app file.</b></p>
+
+<p>The <a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/admincontrolpanel">app management function</a> allows marketing teams to add events and change app variables (like shirt slogans, competition).</p>
+
+<p>To access the Splunkt iOS app you will need to provide a Splunk email address and event ID.</p>
+
+<p>Event ID’s are attached to an event when it is created. When the app is launched out of beta, marketing teams will create events and event IDs and then email them to Splunk staff at events. <a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/eventdatahtml?earliest=0&amp;latest=">For now you can create your own fictitious event here</a>.</p>
+
+<p>Tech note: All app data is stored in Splunk KV collections. KV collections are then queried by the iOS app via the API.</p>
+
+<p><b>STEP 3 – Using the iOS app </b></p>
+
+<p>The app has the ability to scan QR codes, or if not QR code exists capture a lead manually.</p>
+
+<p>Tech note: I have written the barcode scanner to understand comma separated fields. So a barcode like this data: “david, greenwood, se” will format in Splunk like field1=david, field2=greenwood, field3=se</p>
+
+<p><a href="http://chart.apis.google.com/chart?cht=qr&amp;chs=300x300&amp;chl=david%2C%20greenwood%2C%20se&amp;chld=H|0">Start by scanning this code</a>.</p>
+
+<p><a href="https://createqrcode.appspot.com/">Or create your own</a>.</p>
+
+<p>The following app screens after QR capture will show various options for shirt slogans, shirt sizes, use cases, and competition. <a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/admincontrolpanel?earliest=0&amp;latest=">You can add or delete any of these options using the admin control panel.</a></p>
+
+<p><b>STEP 4 – Lead analytics </b></p>
+
+<p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/search?earliest=%40mon&amp;latest=now&amp;q=search%20index%3Dtest_splunkevents">See the lead you’ve just scanned here</a>.</p>
+
+<p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/shirtstats?earliest=0&amp;latest">I have also created a basic (work in progress) dashboard for some analytics</a>.</p>
+</html>
+</row>
+</dashboard>

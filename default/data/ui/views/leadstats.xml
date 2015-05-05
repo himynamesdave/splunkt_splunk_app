@@ -1,75 +1,11 @@
 <dashboard>
-  <label>Shirt Stats</label>
-  <row>
-    <panel>
-      <single>
-        <title>Last Shirt Given Away (Last Hour)</title>
-        <search>
-          <query>index="test_splunkevents" | stats latest(shirt_slogan) AS latestShirtSloganGiven</query>
-          <earliest>rt-1h</earliest>
-          <latest>rt</latest>
-        </search>
-        <option name="drilldown">none</option>
-        <option name="linkView">search</option>
-      </single>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <single>
-        <title>Shirts Given Away (Today)</title>
-        <search>
-          <query>index="test_splunkevents" | stats count AS ShirtsGivenToday</query>
-          <earliest>rt-d@d</earliest>
-          <latest>rt</latest>
-        </search>
-        <option name="drilldown">none</option>
-        <option name="linkView">search</option>
-      </single>
-    </panel>
-    <panel>
-      <single>
-        <title>Shirts Given Away (All Time)</title>
-        <search>
-          <query>index="test_splunkevents" | stats count AS ShirtsGivenAllTime</query>
-          <earliest>rt-d@d</earliest>
-          <latest>rt</latest>
-        </search>
-        <option name="drilldown">none</option>
-        <option name="linkView">search</option>
-      </single>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <map>
-        <title>Where Splunk T's Have Been Given Away (This Month)</title>
-        <search>
-          <query>index="test_splunkevents" | iplocation host | geostats count by host | sort -count</query>
-          <earliest>@mon</earliest>
-          <latest>now</latest>
-        </search>
-        <option name="mapping.data.maxClusters">100</option>
-        <option name="mapping.drilldown">all</option>
-        <option name="mapping.map.center">(0,0)</option>
-        <option name="mapping.map.zoom">2</option>
-        <option name="mapping.markerLayer.markerMaxSize">50</option>
-        <option name="mapping.markerLayer.markerMinSize">10</option>
-        <option name="mapping.markerLayer.markerOpacity">0.8</option>
-        <option name="mapping.tileLayer.maxZoom">7</option>
-        <option name="mapping.tileLayer.minZoom">0</option>
-        <option name="drilldown">all</option>
-      </map>
-    </panel>
-  </row>
+  <label>Lead Stats</label>
   <row>
     <panel>
       <chart>
-        <title>The Most Popular Shirt Slogans (This Month)</title>
+        <title>Products Discussed (all time)</title>
         <search>
-          <query>index="test_splunkevents" | stats count by shirt_slogan | sort -count</query>
-          <earliest>@mon</earliest>
-          <latest>now</latest>
+          <query>index="test_splunkevents" |  eval competitionSplitted=split(competition, ",") | stats count by competitionSplitted | sort -count</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -96,11 +32,10 @@
     </panel>
     <panel>
       <chart>
-        <title>The Most Popular Shirt Sizes (This Month)</title>
+        <title>Use Cases Discussed (all time)</title>
         <search>
-          <query>index="test_splunkevents" | stats count by shirt_size | sort -count</query>
-          <earliest>@mon</earliest>
-          <latest>now</latest>
+          <query>index="test_splunkevents" |  eval usecaseSplitted=split(use_case, ",") | stats count by usecaseSplitted | sort -count</query>
+          <earliest>0</earliest>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -124,6 +59,53 @@
         <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
         <option name="charting.legend.placement">right</option>
       </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Top 10 events by shirts given away (all time)</title>
+        <search>
+          <query>index="test_splunkevents" | chart count by event_id | top limit=10 event_id</query>
+          <earliest>0</earliest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">false</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.axisTitleX.text">Event</option>
+        <option name="charting.axisTitleY.text">Shirts given away</option>
+      </chart>
+    </panel>
+    <panel>
+      <table>
+        <title>Companies we've spoken to most (all time)</title>
+        <search>
+          <query>index="test_splunkevents" | rename lead_details.company_email AS email  | eval accountname=split(email,"@")  | eval from_domain=mvindex(accountname,-1)| top limit=10 from_domain | table from_domain, count | sort -count</query>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
     </panel>
   </row>
 </dashboard>

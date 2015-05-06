@@ -62,6 +62,8 @@
 
 <p><a href="http://t.splunkstart.com:8000">You can access the Splunk App here</a>.</p>
 
+<p>Using the Splunk Mobile App?. You can access this app via our mobile server address: http://t.splunkstart.com:443</p>
+
 <p><b>I will email your username and password separately when sending the app file.</b></p>
 
 <p>The <a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/admincontrolpanel">app management function</a> allows marketing teams to add events and change app variables (like shirt slogans, competition).</p>

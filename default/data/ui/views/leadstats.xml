@@ -1,11 +1,24 @@
-<dashboard>
+<form>
   <label>Lead Stats</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="eventIdToken" searchWhenChanged="true">
+      <label>Event ID</label>
+      <search>
+        <query>search index=* | fields event_id</query>
+      </search>
+      <fieldForLabel>event_id</fieldForLabel>
+      <fieldForValue>event_id</fieldForValue>
+      <prefix>event_id=</prefix>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+  </fieldset>
   <row>
     <panel>
       <chart>
         <title>Products Discussed (all time)</title>
         <search>
-          <query>index="test_splunkevents" |  eval competitionSplitted=split(competition, ",") | stats count by competitionSplitted | sort -count</query>
+          <query>index="test_splunkevents" $eventIdToken$ |  eval competitionSplitted=split(competition, ",") | stats count by competitionSplitted | sort -count</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -34,7 +47,7 @@
       <chart>
         <title>Use Cases Discussed (all time)</title>
         <search>
-          <query>index="test_splunkevents" |  eval usecaseSplitted=split(use_case, ",") | stats count by usecaseSplitted | sort -count</query>
+          <query>index="test_splunkevents" $eventIdToken$ |  eval usecaseSplitted=split(use_case, ",") | stats count by usecaseSplitted | sort -count</query>
           <earliest>0</earliest>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -64,9 +77,9 @@
   <row>
     <panel>
       <chart>
-        <title>Top 10 events by shirts given away (all time)</title>
+        <title>Shirts Given Away by Time (all time)</title>
         <search>
-          <query>index="test_splunkevents" | chart count by event_id | top limit=10 event_id</query>
+          <query>index="test_splunkevents" $eventIdToken$ | timechart count</query>
           <earliest>0</earliest>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -78,7 +91,7 @@
         <option name="charting.axisY.scale">linear</option>
         <option name="charting.axisY2.enabled">false</option>
         <option name="charting.axisY2.scale">inherit</option>
-        <option name="charting.chart">column</option>
+        <option name="charting.chart">line</option>
         <option name="charting.chart.bubbleMaximumSize">50</option>
         <option name="charting.chart.bubbleMinimumSize">10</option>
         <option name="charting.chart.bubbleSizeBy">area</option>
@@ -90,15 +103,13 @@
         <option name="charting.layout.splitSeries">0</option>
         <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
         <option name="charting.legend.placement">right</option>
-        <option name="charting.axisTitleX.text">Event</option>
-        <option name="charting.axisTitleY.text">Shirts given away</option>
       </chart>
     </panel>
     <panel>
       <table>
         <title>Companies we've spoken to most (all time)</title>
         <search>
-          <query>index="test_splunkevents" | rename lead_details.company_email AS email  | eval accountname=split(email,"@")  | eval from_domain=mvindex(accountname,-1)| top limit=10 from_domain | table from_domain, count | sort -count</query>
+          <query>index="test_splunkevents" $eventIdToken$ | rename lead_details.company_email AS email  | eval accountname=split(email,"@")  | eval from_domain=mvindex(accountname,-1)| top limit=10 from_domain | table from_domain, count | sort -count</query>
         </search>
         <option name="wrap">true</option>
         <option name="rowNumbers">false</option>
@@ -108,4 +119,4 @@
       </table>
     </panel>
   </row>
-</dashboard>
+</form>

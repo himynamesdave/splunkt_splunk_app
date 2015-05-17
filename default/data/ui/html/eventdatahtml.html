@@ -64,12 +64,15 @@ styles in <div> tags, similar to Bootstrap's grid system.
         <div class="input input-dropdown" id="input12">
             <label>addEventEndYear</label>
         </div>
+        <div class="input input-dropdown" id="input13">
+            <label>showShirt</label>
+        </div>
         <div class="form-submit" id="search_btn">
             <button class="btn btn-primary submit">Submit</button>
         </div>
     
     <div>
-        <div class="input input-text" id="input13">
+        <div class="input input-text" id="input14">
             <label>Enter a Key ID from the table below to delete a row.</label>
         </div>
         <div><button id="deleteRecord">Delete event</button></div>
@@ -242,7 +245,7 @@ require([
         var search1 = new SearchManager({
             "id": "search1",
             "earliest_time": "0",
-            "search": "| inputlookup kvstore_event_lookup | eval KeyID = _key | table KeyID, addEventName, addEventId, addEventCity, addEventCountry, addEventClass, addEventOrganiserEmail, addEventStartDay, addEventStartMonth, addEventStartYear, addEventEndDay, addEventEndMonth, addEventEndYear",
+            "search": "| inputlookup kvstore_event_lookup | eval KeyID = _key | table KeyID, addEventName, addEventId, addEventCity, addEventCountry, addEventClass, addEventOrganiserEmail, addEventStartDay, addEventStartMonth, addEventStartYear, addEventEndDay, addEventEndMonth, addEventEndYear, showShirt",
             "status_buckets": 0,
             "cancelOnUnload": true,
             "latest_time": "$latest$",
@@ -812,14 +815,30 @@ require([
             FormUtils.handleValueChange(input12);
         });
 
-        var input13 = new TextInput({
+         var input13 = new DropdownInput({
             "id": "input13",
-            "value": "$form.KeyID$",
+            "choices": [
+                {"label": "Yes", "value": "true"},
+                {"label": "No", "value": "false"}
+            ],
+            "showClearButton": true,
+            "selectFirstChoice": false,
+            "value": "$form.showShirt$",
             "el": $('#input13')
         }, {tokens: true}).render();
 
         input13.on("change", function(newValue) {
             FormUtils.handleValueChange(input13);
+        });
+
+        var input14 = new TextInput({
+            "id": "input14",
+            "value": "$form.KeyID$",
+            "el": $('#input14')
+        }, {tokens: true}).render();
+
+        input14.on("change", function(newValue) {
+            FormUtils.handleValueChange(input14);
         });
 
         // 
@@ -877,6 +896,7 @@ require([
             var form_addEventEndDay = tokens.get("addEventEndDay");
             var form_addEventEndMonth = tokens.get("addEventEndMonth");
             var form_addEventEndYear = tokens.get("addEventEndYear");
+            var form_showShirt = tokens.get("showShirt");
             
             // Create a dictionary to store the field names and values
             var record = { 
@@ -891,7 +911,8 @@ require([
                 "addEventStartYear": form_addEventStartYear,
                 "addEventEndDay": form_addEventEndDay,
                 "addEventEndMonth": form_addEventEndMonth,
-                "addEventEndYear": form_addEventEndYear 
+                "addEventEndYear": form_addEventEndYear,
+                "showShirt": form_showShirt
             }; 
 
              // Use the request method to send a REST POST request

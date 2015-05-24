@@ -2,7 +2,10 @@
   <view name="search" />
   <view name="dashboards" />
   <view name="shirtstats" default='true' />
-  <view name="leadstats" /> 	
+  <view name="leadstats" />
+  <collection label="Extras">
+    <view name="random" />
+  </collection>
   <view name="admincontrolpanel" />
-  <view name="betawelcome" /> 	
+  <view name="welcome" /> 	
 </nav>

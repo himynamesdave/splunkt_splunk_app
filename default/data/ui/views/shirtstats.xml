@@ -1,13 +1,33 @@
-<dashboard>
+<form>
   <label>Shirt Stats</label>
+  <fieldset submitButton="true">
+    <input type="dropdown" token="indexToken">
+      <label>index</label>
+      <choice value="*">All</choice>
+      <choice value="splunkevents">Live</choice>
+      <choice value="test_splunkevents">Test</choice>
+      <prefix>index=</prefix>
+    </input>
+    <input type="multiselect" token="eventIdToken">
+      <label>event id</label>
+      <search>
+        <query>index=* | fields event_id</query>
+      </search>
+      <fieldForLabel>event_id</fieldForLabel>
+      <fieldForValue>event_id</fieldForValue>
+      <prefix>event_id=</prefix>
+      <delimiter>,</delimiter>
+      <choice value="*">All Events</choice>
+    </input>
+  </fieldset>
   <row>
     <panel>
       <single>
-        <title>Last Shirt Given Away (Last Hour)</title>
+        <title>Last Shirt Given Away</title>
         <search>
-          <query>index="test_splunkevents" | stats latest(shirt_slogan) AS latestShirtSloganGiven</query>
-          <earliest>rt-1h</earliest>
-          <latest>rt</latest>
+          <query>$indexToken$ $eventIdToken$ | stats latest(shirt_slogan) AS latestShirtSloganGiven</query>
+          <earliest>-60m@m</earliest>
+          <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="linkView">search</option>
@@ -19,9 +39,9 @@
       <single>
         <title>Shirts Given Away (Today)</title>
         <search>
-          <query>index="test_splunkevents" | stats count AS ShirtsGivenToday</query>
-          <earliest>rt-d@d</earliest>
-          <latest>rt</latest>
+          <query>$indexToken$ $eventIdToken$ | stats count AS ShirtsGivenToday</query>
+          <earliest>@d</earliest>
+          <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="linkView">search</option>
@@ -29,11 +49,11 @@
     </panel>
     <panel>
       <single>
-        <title>Shirts Given Away (All Time)</title>
+        <title>Shirts Given Away (Hour)</title>
         <search>
-          <query>index="test_splunkevents" | stats count AS ShirtsGivenAllTime</query>
-          <earliest>rt-d@d</earliest>
-          <latest>rt</latest>
+          <query>$indexToken$ $eventIdToken$ | stats count AS ShirtsGivenAllTime</query>
+          <earliest>-60m@m</earliest>
+          <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="linkView">search</option>
@@ -43,9 +63,9 @@
   <row>
     <panel>
       <map>
-        <title>Where Splunk T's Have Been Given Away (This Month)</title>
+        <title>Where Splunk T's Have Been Given Away (Month)</title>
         <search>
-          <query>index="test_splunkevents" | iplocation host | geostats count by host | sort -count</query>
+          <query>$indexToken$ $eventIdToken$ | iplocation host | geostats count by host | sort -count</query>
           <earliest>@mon</earliest>
           <latest>now</latest>
         </search>
@@ -65,9 +85,9 @@
   <row>
     <panel>
       <chart>
-        <title>The Most Popular Shirt Slogans (This Month)</title>
+        <title>The Most Popular Shirt Slogans (Month)</title>
         <search>
-          <query>index="test_splunkevents" | stats count by shirt_slogan | sort -count</query>
+          <query>$indexToken$ $eventIdToken$ | stats count by shirt_slogan | sort -count</query>
           <earliest>@mon</earliest>
           <latest>now</latest>
         </search>
@@ -96,9 +116,9 @@
     </panel>
     <panel>
       <chart>
-        <title>The Most Popular Shirt Sizes (This Month)</title>
+        <title>The Most Popular Shirt Sizes (Month)</title>
         <search>
-          <query>index="test_splunkevents" | stats count by shirt_size | sort -count</query>
+          <query>$indexToken$ $eventIdToken$ | stats count by shirt_size | sort -count</query>
           <earliest>@mon</earliest>
           <latest>now</latest>
         </search>
@@ -126,4 +146,4 @@
       </chart>
     </panel>
   </row>
-</dashboard>
+</form>

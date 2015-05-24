@@ -1,0 +1,56 @@
+<form>
+  <label>Prize Draw</label>
+  <fieldset submitButton="true">
+    <input type="dropdown" token="indexToken">
+      <label>index</label>
+      <choice value="*">All</choice>
+      <choice value="splunkevents">Live</choice>
+      <choice value="test_splunkevents">Test</choice>
+      <prefix>index=</prefix>
+      <default>*</default>
+    </input>
+    <input type="multiselect" token="eventIdToken">
+      <label>event id</label>
+      <search>
+        <query>index=* | fields event_id</query>
+      </search>
+      <fieldForLabel>event_id</fieldForLabel>
+      <fieldForValue>event_id</fieldForValue>
+      <prefix>event_id=</prefix>
+      <delimiter>,</delimiter>
+      <choice value="*">All Events</choice>
+    </input>
+    <input type="time" token="field1">
+      <label>time</label>
+      <default>
+        <earliest>@d</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <event>
+        <title>index=$indexToken$ event_id=$eventIdToken$ | eval Random=random() | sort - Random | head 1</title>
+        <search>
+          <query>$indexToken$ $eventIdToken$  | eval Random=random() | sort - Random | head 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">0</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="linkView">search</option>
+        <option name="list.drilldown">full</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+        <option name="count">10</option>
+        <fields>["host","source","sourcetype"]</fields>
+      </event>
+    </panel>
+  </row>
+</form>

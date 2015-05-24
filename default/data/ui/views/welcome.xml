@@ -1,0 +1,131 @@
+<dashboard>
+  <label>Docs</label>
+  <row>
+    <html>
+<h1>Splunkt</h1>
+
+<h3>Overview</h3>
+      
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/aKvdZvk3Tk0QV9" width="476" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+<p>The Splunkt iOS app allows Splunk staff to capture QR code data from event attendee badges (or allow them to enter the attendees details manually). It also gives Splunk staff the opportunity to enter information about their conversation with the attendee (i.e products or use-cases discussed).</p>
+
+<p>All data collected from the app about the attendee is stored in a Splunk index.</p>
+
+<p>Using Splunk we can easily export data to third-party marketing tools as well as using Splunk searches for deep analytics.</p>
+
+<h3>Why should I care?</h3>
+
+<p>It will help you make more money and make your job easier.</p>
+
+<p>We can better track the conversations we’re having with prospects and customers to help us sell more effectively. Using Splunkt you can:</p>
+
+<ul>
+<li>Track competition</li>
+<li>Capture detailed lead information</li>
+<li>Measure t-shirt hand-outs vs. closed opportunities</li>
+<li>&amp; more</li>
+</ul>
+
+<h3>Where can I download the app?</h3>
+
+<p>Splunkt is available for iOS (Apple) and Android devices. Email <a href="mailto:dgreenwood@splunk.com">dgreenwood@splunk.com</a>.</p>
+
+<br />
+
+<hr />
+
+<br />
+
+<h2>Get started (mobile app)</h2>
+
+<p><b>STEP 1 - Installation</b></p>
+
+<p><b>iOS (Apple devices)</b></p>
+
+<p>I will send you a file "Splunkt.ipa". When you have this:</p>
+
+<ul>
+<li>Drag the SplunktBeta.ipa file into iTunes library</li>
+<li>Plug in your iOS device</li>
+<li>Select "YOUR DEVICE" &gt; “Apps”</li>
+<li>Click “Install” for SplunktBeta</li>
+<li>Click “Apply” to sync setting with your iOS device</li>
+</ul>
+
+<p>Note, if you are installing an update of this app, please delete the old version from the device and your iTunes library then follow the steps above.</p>
+
+<p><b>Android</b></p>
+
+<p>I will send you a file "Splunkt.apk". When you have this:</p>
+
+<ul>
+<li>Get the Splunkt.apk file onto your device (Google Drive, or similar, is a great option for this)</li>
+<li>Open the file on the device and select install</li>
+</ul>
+
+<p>Note, if you are installing an update of this app, please delete the old version from the device and then follow the steps above.</p>
+
+<p><b>STEP 2 - Welcome</b></p>
+
+<p>You will need a @splunk.com email and valid event ID to login. Event IDs are set by organised when event is created. You can obtain an event ID from the event organiser of in the <a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/admincontrolpanel">admin control panel</a>.</p>
+
+<p><b>STEP 3 - Problems?</b></p>
+
+<p>Email <a href="mailto:dgreenwood@splunk.com">dgreenwood@splunk.com</a>.</p>
+
+<br />
+
+<hr />
+
+<br />
+
+<h2>Get started (Splunk admin)</h2>
+
+<p><b>STEP 1 – Get familiar with the admin functions</b></p>
+
+<p>Powering the Splunkt mobile apps is a Splunk App used for app management and lead analysis.</p>
+      
+<p>The <a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/admincontrolpanel">admin control panel</a> allows event organisers to add events and change app variables (like shirt slogans, competition).</p>
+
+<p><b>STEP 2 – Lead analytics </b></p>
+
+<p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/search?earliest=%40mon&amp;latest=now&amp;q=search%20index%3Dsplunkevents">Here's a search to see the leads scanned</a>.</p>
+
+<p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/shirtstats?earliest=0&amp;latest">Here's a basic (work in progress) dashboard for some analytics</a>.</p>
+
+<p><b>STEP 3 - Problems?</b></p>
+
+<p>Email <a href="mailto:dgreenwood@splunk.com">dgreenwood@splunk.com</a>.</p>
+
+<br />
+
+<hr />
+
+<br />
+
+<h2>Tech notes</h2>
+
+<h3>Dump</h3>
+
+<p>All lead data is stored in Splunk index = splunkevents</p>
+
+<p>All app data is stored in Splunk KV collections. KV collections are then queried by the iOS app via the API.</p>
+
+<p>The app has the ability to scan QR codes, or if not QR code exists capture a lead manually. The app I have barcode scanner can currently parse CSV and VCARD outputs into JSON neatly. Other supported barcodes will still scan but will parse into a single JSON field (most likely).</p>
+
+<p><a href="http://chart.apis.google.com/chart?cht=qr&amp;chs=300x300&amp;chl=david%2C%20greenwood%2C%20se&amp;chld=H|0">Try scanning this code</a>.</p>
+
+<p><a href="https://createqrcode.appspot.com/">Or create your own</a>.</p>
+
+<p><b>Help me improve this app</b></p>
+
+<p><a href="https://github.com/himynamesdave/splunkt_splunk_app">Fork the Splunk app on Github</a>.</p>
+
+<p><a href="https://github.com/himynamesdave/splunkt_ios">Fork the iOS app on Github</a>.</p>
+
+<p><a href="https://github.com/himynamesdave/splunkt_android">Fork the Android app on Github</a>.</p>
+
+</html>
+</row>
+</dashboard>

@@ -3,6 +3,8 @@
 
 [You can download the latest version of the mobile app for your device](http://www.splunkt.com).
 
+[Find out more about this project here](https://www.slideshare.net/secret/aKvdZvk3Tk0QV9).
+
 ### Linked Repos
 
 [iOS app code](https://github.com/himynamesdave/splunkt_ios)
@@ -15,6 +17,8 @@
 
 * data visualisation layer to track event metrics (i.e tshirts sizes / slogans given away, use-cases discussed, competition, and more...)
 * admin control panel allowing users to add or amend the variables that populate the app (events, tshirt slogans, tshirt sizes, use cases, competition, & roducts)
+
+[Feature requests go here](https://docs.google.com/spreadsheets/d/13uf7yKlwVyVh3eP_DlZLGH0Ty-c7oLNIMkeZWxhEo10/edit?usp=sharing).
 
 ### Architecture
 

@@ -1,8 +1,8 @@
 <form>
   <label>Export</label>
   <description>First choose an event, and then click export icon (below table) to download leads as a CSV file.</description>
-  <fieldset submitButton="false">
-    <input type="multiselect" token="eventIdToken" searchWhenChanged="true">
+  <fieldset submitButton="true">
+    <input type="multiselect" token="eventIdToken" searchWhenChanged="false">
       <label>event</label>
       <search>
         <query>index=splunkevents | fields event_id</query>

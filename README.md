@@ -1,7 +1,7 @@
 # Splunkt App for Splunk
-## A Splunk App to manage data for Splunkt iOS app
+## A Splunk App to manage data for Splunkt iOS and Android apps
 
-Currently in beta.
+[You can download the latest version of the mobile app for your device](http://www.splunkt.com).
 
 ### Functionality
 

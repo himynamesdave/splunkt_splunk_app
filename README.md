@@ -3,6 +3,12 @@
 
 [You can download the latest version of the mobile app for your device](http://www.splunkt.com).
 
+### Linked Repos
+
+[iOS app code](https://github.com/himynamesdave/splunkt_ios)
+[Android app code](https://github.com/himynamesdave/splunkt_android)
+[Public site](https://github.com/himynamesdave/splunkt_site)
+
 ### Functionality
 
 * data visualisation layer to track event metrics (i.e tshirts sizes / slogans given away, use-cases discussed, competition, and more...)

@@ -29,7 +29,11 @@
 
 <h3>Where can I download the app?</h3>
 
-<p>Splunkt is available for iOS (Apple) and Android devices. Email <a href="mailto:dgreenwood@splunk.com">dgreenwood@splunk.com</a>.</p>
+<p>Splunkt is available for iOS (Apple) and Android devices. <a href="http://www.splunkt.com">Go here to get a copy</a>.</p>
+
+<h3>I have a suggestion for a new feature</h3>
+ 
+<p>Great. <a href="https://docs.google.com/spreadsheets/d/13uf7yKlwVyVh3eP_DlZLGH0Ty-c7oLNIMkeZWxhEo10/edit?usp=sharing">You can submit it here</a>.</p>
 
 <br />
 
@@ -86,13 +90,13 @@
 
 <p>Powering the Splunkt mobile apps is a Splunk App used for app management and lead analysis.</p>
       
-<p>The <a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/admincontrolpanel">admin control panel</a> allows event organisers to add events and change app variables (like shirt slogans, competition).</p>
+<p>The <a href="http://splunk.splunkt.com:8000/en-US/app/splunkt_splunk_app/admincontrolpanel">admin control panel</a> allows event organisers to add events and change app variables (like shirt slogans, competition).</p>
 
 <p><b>STEP 2 – Lead analytics </b></p>
 
-<p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/search?earliest=%40mon&amp;latest=now&amp;q=search%20index%3Dsplunkevents">Here's a search to see the leads scanned</a>.</p>
+<p><a href="http://splunk.splunkt.com:8000/en-US/app/splunkt_splunk_app/search?earliest=%40mon&amp;latest=now&amp;q=search%20index%3Dsplunkevents">Here's a search to see the leads scanned</a>.</p>
 
-<p><a href="http://t.splunkstart.com:8000/en-US/app/splunkt_splunk_app/shirtstats?earliest=0&amp;latest">Here's a basic (work in progress) dashboard for some analytics</a>.</p>
+<p><a href="http://splunk.splunkt.com:8000/en-US/app/splunkt_splunk_app/shirtstats?earliest=0&amp;latest">Here's a basic (work in progress) dashboard for some analytics</a>.</p>
 
 <p><b>STEP 3 - Problems?</b></p>
 

@@ -6,7 +6,9 @@
 ### Linked Repos
 
 [iOS app code](https://github.com/himynamesdave/splunkt_ios)
+
 [Android app code](https://github.com/himynamesdave/splunkt_android)
+
 [Public site](https://github.com/himynamesdave/splunkt_site)
 
 ### Functionality

@@ -3,6 +3,7 @@
   <view name="dashboards" />
   <view name="shirtstats" default='true' />
   <view name="leadstats" />
+  <view name="export" />
   <collection label="Extras">
     <view name="random" />
   </collection>

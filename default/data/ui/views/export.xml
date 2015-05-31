@@ -1,0 +1,33 @@
+<form>
+  <label>Export</label>
+  <description>First choose an event, and then click export icon (below table) to download leads as a CSV file.</description>
+  <fieldset submitButton="false">
+    <input type="multiselect" token="eventIdToken" searchWhenChanged="true">
+      <label>event</label>
+      <search>
+        <query>index=splunkevents | fields event_id</query>
+      </search>
+      <fieldForLabel>event_id</fieldForLabel>
+      <fieldForValue>event_id</fieldForValue>
+      <prefix>event_id=</prefix>
+      <delimiter>,</delimiter>
+      <choice value="*">All events</choice>
+      <default></default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Leads Collected</title>
+        <search>
+          <query>index=splunkevents $eventIdToken$ | table _time staff_email shirt_slogan shirt_size competition use_case notes lead_details* qr_data*</query>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">25</option>
+      </table>
+    </panel>
+  </row>
+</form>

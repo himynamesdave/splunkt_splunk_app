@@ -2,17 +2,14 @@
   <label>Export</label>
   <description>First choose an event, and then click export icon (below table) to download leads as a CSV file.</description>
   <fieldset submitButton="true">
-    <input type="multiselect" token="eventIdToken" searchWhenChanged="false">
-      <label>event</label>
+    <input type="dropdown" token="eventIdToken">
+      <label>event id</label>
       <search>
         <query>index=splunkevents | fields event_id</query>
       </search>
       <fieldForLabel>event_id</fieldForLabel>
       <fieldForValue>event_id</fieldForValue>
       <prefix>event_id=</prefix>
-      <delimiter>,</delimiter>
-      <choice value="*">All events</choice>
-      <default></default>
     </input>
   </fieldset>
   <row>
